@@ -8,31 +8,23 @@
         <table border="1" cellpadding="8" cellspacing="0">
             <tr>
                 <th>Nama Lengkap</th>
-                <td>{{ $employee->nama_lengkap }}</td>
+                <td>{{ $attendance->employee?->nama_lengkap }}</td>
             </tr>
             <tr>
-                <th>Email</th>
-                <td>{{ $employee->email }}</td>
+                <th>Tanggal</th>
+                <td>{{ $attendance->tanggal }}</td>
             </tr>
             <tr>
                 <th>Nomor Telepon</th>
-                <td>{{ $employee->nomor_telepon }}</td>
+                <td>{{ $attendance->waktu_masuk }}</td>
             </tr>
             <tr>
                 <th>Tanggal Lahir</th>
-                <td>{{ $employee->tanggal_lahir }}</td>
+                <td>{{ $attendance->waktu_keluar }}</td>
             </tr>
             <tr>
                 <th>Alamat</th>
-                <td>{{ $employee->alamat }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Masuk</th>
-                <td>{{ $employee->tanggal_masuk }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ $employee->status }}</td>
+                <td>{{ $attendance->status }}</td>
             </tr>
         </table>
     </body>

@@ -41,6 +41,28 @@
                             </select>
                         </td>
                     </tr>
+                <tr>
+                    <td><label for="department">Department:</label></td>
+                    <td>
+                        <select name="department_id">
+                            <option value="">-- Pilih Departemen --</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}" {{ $employee->department_id == $department->id ? 'selected' :'-' }}>{{ $department->nama_departemen ?? '-' }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="position">positions:</label></td>
+                    <td>
+                        <select name="jabatan_id">
+                            <option value="">-- Pilih Jabatan --</option>
+                            @foreach ($positions as $position)
+                                <option value="{{ $position->id }}" {{ $employee->jabatan_id == $position->id ? 'selected' : '' }}>{{ $position->nama_jabatan }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
                     <tr>
                         <td colspan="2">
                             <button type="submit">Update</button>

@@ -9,6 +9,7 @@
         @section('content')
         <div class="container mt-5">
             <h1 class="mb-4">Daftar Pegawai</h1>
+            <a href="{{ route('employees.create') }}">Tambahkan</a>
             <table border="1" cellpadding="5" cellspacing="0">
                 <thead>
                     <tr>
@@ -19,6 +20,8 @@
                         <th>Alamat</th>
                         <th>Tanggal Masuk</th>
                         <th>Status</th>
+                        <th>Departemen</th>
+                        <th>Posisi</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -32,6 +35,8 @@
                         <td>{{ $employee->alamat }}</td>
                         <td>{{ $employee->tanggal_masuk }}</td>
                         <td>{{ $employee->status }}</td>
+                        <td>{{ $employee->department?->nama_departemen }}</td>
+                        <td>{{ $employee->position?->nama_jabatan }}</td>
                         <td>
                             <a href="{{ route('employees.show', $employee->id) }}">Detail</a> |
                             <a href="{{ route('employees.edit', $employee->id) }}">Edit</a> |

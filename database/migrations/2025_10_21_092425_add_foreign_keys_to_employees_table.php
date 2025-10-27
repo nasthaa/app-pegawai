@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->unsignedBigInteger('department_id')->after('tanggal_masuk');
-            $table->unsignedBigInteger('jabatan_id')->after('department_id');
+            $table->unsignedBigInteger('department_id')->nullable()->after('tanggal_masuk');
+            $table->unsignedBigInteger('jabatan_id')->nullable()->after('department_id');
 
             $table->foreign('department_id')
-                ->references('id')
-                ->on('departments')
-                ->onDelete('cascade');
+                  ->references('id')
+                  ->on('departments')
+                  ->onDelete('set null');
 
             $table->foreign('jabatan_id')
-                ->references('id')
-                ->on('positions')
-                ->onDelete('cascade');
+                  ->references('id')
+                  ->on('positions')
+                  ->onDelete('set null');
         });
     }
 
