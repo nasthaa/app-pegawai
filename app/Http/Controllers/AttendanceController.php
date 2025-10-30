@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller {
     public function index() {
-        $attendance = Attendance::latest()->paginate(10);
+        $attendance = Attendance::query()
+            ->orderBy('tanggal', 'asc')
+            ->orderBy('waktu_masuk', 'asc')
+            ->orderBy('waktu_keluar', 'asc')
+            ->orderBy('status', 'asc')
+            ->paginate(5);
         
         return view('attendance.index', compact('attendance'));
     }
@@ -58,11 +63,11 @@ class AttendanceController extends Controller {
 
     public function update(Request $request, $id) {
         $request->validate([
-            'karyawan_id' => 'required|exists:employees,id',
-            'tanggal' => 'required|date',
-            'waktu_masuk' => 'nullable|date_format:H:i:s',
+            'karyawan_id'  => 'required|exists:employees,id',
+            'tanggal'      => 'required|date',
+            'waktu_masuk'  => 'nullable|date_format:H:i:s',
             'waktu_keluar' => 'nullable|date_format:H:i:s',
-            'status' => 'required|in:Hadir,Sakit,Izin,Alpha',
+            'status'       => 'required|in:Hadir,Sakit,Izin,Alpha',
         ]);
 
         $data = $request->all();

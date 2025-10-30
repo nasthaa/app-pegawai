@@ -1,91 +1,116 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Form Input Pegawai</title>
-    </head>
-    <body>
-        <h1 class="mb-4">Form Pegawai</h1>
-        <form action="{{ route('salaries.store') }}" method="POST">
-            @csrf
-            <table>
-                <tr>
-                    <td><label for="karyawan_id">Karyawan:</label></td>
-                    <td>
-                        <select name="karyawan_id" id="karyawan_id">
-                            @foreach ($employees as $employee)
-                                <option value="{{ $employee->id }}">{{ $employee->nama_lengkap }} ({{ $employee->position->nama_jabatan ?? 'Tidak ada posisi' }})</option>
-                            @endforeach
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="bulan">Bulan:</label></td>
-                    <td><input type="text" id="bulan" name="bulan"></td>
-                </tr>
-                <tr>
-                    <td><label for="gaji_pokok">Gaji pokok:</label></td>
-                    <td><input type="number" id="gaji_pokok" name="gaji_pokok" step="0.01" readonly></td>
-                </tr>
-                <tr>
-                    <td><label for="tunjangan">Tunjangan:</label></td>
-                    <td><input type="text" id="tunjangan" name="tunjangan"></td>
-                </tr>
-                <tr>
-                    <td><label for="potongan">Potongan:</label></td>
-                    <td><input type="text" id="potongan" name="potongan"></td>
-                </tr>
-                <tr>
-                    <td><label for="total_gaji">Total Gaji:</label></td>
-                    <td><input type="number" id="total_gaji" name="total_gaji" step="0.01" readonly></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align:right;">
-                        <button type="submit">Simpan</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </body>
+@extends('master')
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        const gajiInput = document.getElementById('gaji_pokok');
-        const tunjanganInput = document.getElementById('tunjangan');
-        const potonganInput = document.getElementById('potongan');
-        const totalInput = document.getElementById('total_gaji');
+@section('title', 'Salary')
+@section('active-salary', 'active')
+@section('sub-title', 'Create Salary')
+@section('caption', 'Page')
 
-        // Saat nama karyawan diubah
-        $('#karyawan_id').on('change', function () {
-            const id = $(this).val();
+@section('content')
+<form action="{{ route('salaries.store') }}" method="POST" class="mt-4">
+    @csrf
+    <div class="mb-3 row">
+        <label for="karyawan_id" class="col-sm-2 col-form-label fs-4">Employee</label>
+        <div class="col-sm-10">
+            <select name="karyawan_id" id="karyawan_id" class="form-control" required>
+                <option value="" disabled selected>- Select Employee -</option>
+                @foreach ($employees as $employee)
+                    <option value="{{ $employee->id }}">
+                        {{ $employee->nama_lengkap }} ({{ $employee->position->nama_jabatan ?? 'No Position' }})
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="bulan" class="col-sm-2 col-form-label fs-4">Month</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="bulan" name="bulan" required>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="gaji_pokok" class="col-sm-2 col-form-label fs-4">Basic Salary</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="gaji_pokok_display" readonly>
+            <input type="hidden" id="gaji_pokok" name="gaji_pokok">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="tunjangan" class="col-sm-2 col-form-label fs-4">Allowance</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="tunjangan_display">
+            <input type="hidden" id="tunjangan" name="tunjangan">
+        </div>
+        <label for="potongan" class="col-sm-2 col-form-label fs-4">Deduction</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="potongan_display">
+            <input type="hidden" id="potongan" name="potongan">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="total_gaji" class="col-sm-2 col-form-label fs-4">Total Salary</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="total_gaji_display" readonly>
+            <input type="hidden" id="total_gaji" name="total_gaji">
+        </div>
+    </div>
+    <div class="pt-3">
+        <button type="button" class="btn btn-danger me-2" onclick="window.location.href='/salaries'">Back</button>
+        <button type="submit" class="btn btn-info me-2">Save</button>
+    </div>
+</form>
 
-            if (id) {
-                $.ajax({
-                    url: `/get-salary/${id}`,
-                    type: 'GET',
-                    success: function (data) {
-                        $('#gaji_pokok').val(data.gaji_pokok ?? 0);
-                        updateTotal();
-                    },
-                    error: function (xhr) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            } else {
-                $('#gaji_pokok').val(0);
-                updateTotal();
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const formatRibuan = (angka) => angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    function setupFormat(displayId, hiddenId, callback) {
+        const display = document.getElementById(displayId);
+        const hidden = document.getElementById(hiddenId);
+        display.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            hidden.value = value;
+            this.value = value ? formatRibuan(value) : '';
+            if (callback) callback();
+        });
+        display.addEventListener('blur', function() {
+            if (this.value && !this.value.includes(',')) {
+                this.value += ',00';
             }
         });
-
-        // Update total otomatis
-        [tunjanganInput, potonganInput].forEach(input => {
-            input.addEventListener('input', updateTotal);
+        display.addEventListener('focus', function() {
+            this.value = this.value.replace(',00', '');
         });
+    }
 
-        function updateTotal() {
-            const gaji = parseFloat(gajiInput.value) || 0;
-            const tunjangan = parseFloat(tunjanganInput.value) || 0;
-            const potongan = parseFloat(potonganInput.value) || 0;
-            totalInput.value = gaji + tunjangan - potongan;
+    setupFormat('tunjangan_display', 'tunjangan', updateTotal);
+    setupFormat('potongan_display', 'potongan', updateTotal);
+
+    $('#karyawan_id').on('change', function () {
+        const id = $(this).val();
+        if (id) {
+            $.ajax({
+                url: `/get-salary/${id}`,
+                type: 'GET',
+                success: function (data) {
+                    const gaji = data.gaji_pokok ?? 0;
+                    $('#gaji_pokok').val(gaji);
+                    $('#gaji_pokok_display').val(formatRibuan(gaji.toString()) + ',00');
+                    updateTotal();
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                }
+            });
         }
-    </script>
-</html>
+    });
+
+    function updateTotal() {
+        const gaji = parseFloat($('#gaji_pokok').val()) || 0;
+        const tunjangan = parseFloat($('#tunjangan').val()) || 0;
+        const potongan = parseFloat($('#potongan').val()) || 0;
+        const total = gaji + tunjangan - potongan;
+        $('#total_gaji').val(total);
+        $('#total_gaji_display').val(formatRibuan(total.toString()) + ',00');
+    }
+</script>
+@endsection

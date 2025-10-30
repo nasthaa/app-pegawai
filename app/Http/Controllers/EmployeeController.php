@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller {
     public function index() {
-        $employees = Employee::latest()->paginate(10);
+        $employees = Employee::with(['department', 'position'])
+            ->orderBy('nama_lengkap', 'asc')
+            ->paginate(5);
         
         return view('employees.index', compact('employees'));
     }
@@ -36,7 +38,7 @@ class EmployeeController extends Controller {
 
         Employee::create($request->all());
         
-        return redirect()->route('employees.index');
+        return redirect()->route('employees.index')->with('success','Employee created successfully');
     }
 
     public function show(string $id) {
@@ -69,13 +71,13 @@ class EmployeeController extends Controller {
         $employee = Employee::findOrFail($id);
         $employee->update($request->all());
         
-        return redirect()->route('employees.index');
+        return redirect()->route('employees.index')->with('success','Employee updated successfully');
     }
 
     public function destroy(string $id) {
         $employee = Employee::findOrFail($id);
         $employee->delete();
         
-        return redirect()->route('employees.index');
+        return redirect()->route('employees.index')->with('success','Employee deleted successfully');
     }
 }

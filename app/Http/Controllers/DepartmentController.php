@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller {
     public function index() {
-        $departments = Department::latest()->paginate(10);
+        $departments = Department::query()
+            ->orderBy('nama_departemen', 'asc')
+            ->paginate(5);
         
         return view('departments.index', compact('departments'));
     }
@@ -24,7 +26,7 @@ class DepartmentController extends Controller {
 
         Department::create($request->all());
         
-        return redirect()->route('departments.index');
+        return redirect()->route('departments.index')->with('success', 'Department created successfully.');
     }
 
     public function show(string $id) {
@@ -47,13 +49,13 @@ class DepartmentController extends Controller {
         $department = Department::findOrFail($id);
         $department->update($request->all());
         
-        return redirect()->route('departments.index');
+        return redirect()->route('departments.index')->with('success', 'Department updated successfully.');
     }
 
     public function destroy(string $id) {
         $department = Department::findOrFail($id);
         $department->delete();
         
-        return redirect()->route('departments.index');
+        return redirect()->route('departments.index')->with('success','Department delete suceessfully.');
     }
 }

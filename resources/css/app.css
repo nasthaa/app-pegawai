@@ -1,0 +1,28 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+.set-icon{
+    cursor: pointer !important;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+main{
+    flex: 1;
+    min-height: 100vh;
+}
+
+/* footer{
+    flex-shrink: 0;
+} */
+
+.object-fit-cover{
+    object-fit: cover;
+}

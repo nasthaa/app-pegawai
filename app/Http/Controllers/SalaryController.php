@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 
 class SalaryController extends Controller {
     public function index() {
-        $salaries = Salary::latest()->paginate(10);
+        $salaries = Salary::query()
+            ->orderBy('bulan', 'asc')
+            ->paginate(5);
         
         return view('salaries.index', compact('salaries'));
     }
@@ -31,7 +33,7 @@ class SalaryController extends Controller {
 
     public function store(Request $request) {
         $request->validate([
-            'karyawan_id'  => 'required|exists:employees,id',
+            'karyawan_id' => 'nullable|exists:employees,id',
             'bulan'       => 'required|string|max:10',
             'gaji_pokok'  => 'nullable|numeric',
             'tunjangan'   => 'nullable|numeric',
@@ -72,7 +74,7 @@ class SalaryController extends Controller {
 
     public function update(Request $request, string $id) {
         $request->validate([
-            'karyawan_id'=> 'required|exists:employees,id',
+            'karyawan_id'=> 'nullable|exists:employees,id',
             'bulan'      => 'required|string|max:10',
             'gaji_pokok' => 'nullable|numeric',
             'tunjangan'  => 'nullable|numeric',

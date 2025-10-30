@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Form Input Pegawai</title>
-    </head>
-    <body>
-        <h1 class="mb-4">Form Pegawai</h1>
-        <form action="{{ route('departments.store') }}" method="POST">
-            @csrf
-            <table>
-                <tr>
-                    <td><label for="nama_departemen">Nama Departemen:</label></td>
-                    <td><input type="text" id="nama_departemen" name="nama_departemen"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align:right;">
-                        <button type="submit">Simpan</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </body>
-</html>
+@extends('master')
+
+@section('title', 'Department')
+@section('active-department', 'active')
+@section('sub-title', 'Create Department')
+@section('caption', 'Page')
+
+@section('content')
+<form action="{{ route('departments.store') }}" method="POST" class="mt-4">
+    @csrf
+    <div class="mb-3 row">
+        <label for="nama_departemen" class="col-sm-2 col-form-label fs-4">Department Name</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="nama_departemen" name="nama_departemen" required>
+        </div>
+    </div>
+    <div class="pt-3">
+        <button type="button" class="btn btn-danger me-2" onclick="window.location.href='/departments'">Back</button>
+        <button type="submit" class="btn btn-info me-2">Save</button>
+    </div>
+</form>
+@endsection
