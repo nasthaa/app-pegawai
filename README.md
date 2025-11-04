@@ -61,6 +61,97 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+---
+
+## 🧩 About This Project
+
+This repository is part of the **Web Programming Framework Practicum** course project in the **3rd semester** of **Informatics Engineering**,  
+**Politeknik Elektronika Negeri Surabaya (PENS)**.  
+
+It was developed using the **Laravel Framework**, focusing on implementing the MVC (Model–View–Controller) architecture, routing, middleware, and database management using Eloquent ORM.  
+The project also aims to strengthen understanding of **web development best practices** using PHP, Laravel, and modern web design concepts.
+
+## 🚀 Features
+- Authentication (Login & Register)
+- CRUD operations using Eloquent ORM
+- Blade templating with Bootstrap CSS
+- Middleware-based access control
+- Database migrations & seeding
+- Optional API integration
+
+## ⚙️ How to Run Locally
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/USERNAME/NAMA-REPO.git
+   cd NAMA-REPO
+    ````
+
+2. Install dependencies:
+
+   ```bash
+   composer install
+   npm install && npm run dev
+   ```
+
+3. Copy the example environment file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Generate the application key:
+
+   ```bash
+   php artisan key:generate
+   ```
+
+5. Configure your database in the `.env` file, then run:
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+6. Finally, start the development server:
+
+   ```bash
+   php artisan serve
+   ```
+
+   Then open [http://localhost:8000](http://localhost:8000) in your browser.
+
+## 📁 Project Structure
+
+```
+📦 Praktikum Pemrograman Framework
+├── 📂 app/
+├── 📂 bootstrap/
+├── 📂 config/
+├── 📂 database/
+├── 📂 public/
+├── 📂 resources/
+├── 📂 routes/
+├── 📂 storage/
+├── 📂 tests/
+└── 📜 .env.example
+```
+
+## 🧠 Learning Focus
+
+* Laravel MVC structure
+* Route handling and controller logic
+* Eloquent ORM and database relationships
+* Authentication and middleware
+* UI development with Blade templates
+
+## 👩‍💻 Created by
+
+**Nur Aini Agusthina**
+Informatics Engineering Student | 3rd Semester – **Politeknik Elektronika Negeri Surabaya (PENS)**
+Course: **Web Programming Framework Practicum**
+
+---
+
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is based on the open-source [Laravel Framework](https://laravel.com) licensed under the [MIT license](https://opensource.org/licenses/MIT).
